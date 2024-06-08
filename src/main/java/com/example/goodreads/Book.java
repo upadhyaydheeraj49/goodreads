@@ -6,10 +6,10 @@ public class Book {
     private String name;
     private String bookUrl;
 
-    public Book(int id, String name, String bookUrl) {
+    public Book(int id, String name, String imageUrl) {
         this.id = id;
         this.name = name;
-        this.bookUrl = bookUrl;
+        this.bookUrl = imageUrl;
     }
 
     public int getId() {

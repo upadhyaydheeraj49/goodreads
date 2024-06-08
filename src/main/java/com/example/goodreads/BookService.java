@@ -11,6 +11,7 @@ public class BookService implements BookRepository {
 
     // business logic
     private HashMap<Integer, Book> hmap = new HashMap<>();
+    int uniqueId = 3;
 
     public BookService() {
         Book book1 = new Book(1, "Harry Potter", "harry_potter.jpg");
@@ -35,4 +36,39 @@ public class BookService implements BookRepository {
         return b;
     }
 
+    @Override
+    public Book addBook(Book book) {
+        book.setId(uniqueId);
+        hmap.put(uniqueId, book);
+        uniqueId++;
+        return book;
+    }
+
+    @Override
+    public Book updateBook(int id, Book book) {
+        Book existingBook = hmap.get(id);
+
+        if (existingBook == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
+        if (book.getName() != null) {
+            existingBook.setName(book.getName());
+        }
+        if (book.getUrl() != null) {
+            existingBook.setUrl(book.getUrl());
+        }
+        return existingBook;
+    }
+
+    @Override
+    public void deleteBook(int id) {
+        Book book = hmap.get(id);
+        if (book == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        } else {
+            hmap.remove(id);
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT);
+        }
+    }
 }
